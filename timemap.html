@@ -1,0 +1,65 @@
+# -*- coding: utf-8 -*-
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Map Timeline Mashup</title>
+    <script src="http://maps.google.com/maps?file=api&v=2&key=ABQIAAAAMzUq3VKhbFUEJ-c9d-7_txRmkX0Ke1xVA353wOlGrxLWCAf3VxT9Nau94tvFBPegZV0pn5-joyATSQ" type="text/javascript"></script>
+    <script type="text/javascript" src="/lib/jquery-1.4.4.min.js"></script> 
+    <script type="text/javascript" src="/lib/mxn/mxn.js?(google)"></script> 
+    <script type="text/javascript" src="/lib/timeline-2.3.0.js"></script> 
+    <script src="/src/timemap.js" type="text/javascript"></script> 
+    <script src="/src/loaders/json.js" type="text/javascript"></script> 
+    <script src="/src/loaders/progressive.js" type="text/javascript"></script>
+    <link href="/examples.css" type="text/css" rel="stylesheet"/> 
+	<script type="text/javascript"> 
+ 
+var tm;
+function onLoad() {
+    tm = TimeMap.init({
+        mapId: "map",               // Id of map div element (required)
+        timelineId: "timeline",     // Id of timeline div element (required) 
+        options: {
+            eventIconPath: "/lib/images/"
+        },
+        datasets: [
+            {
+                title: "Progressive Dataset",
+                theme: "green",
+                type: "progressive",
+                options: {
+                    // Data to be loaded in JSON from a remote URL
+                    type: "json", 
+                    // url with start/end placeholders
+                    url: "http://benosteen.com/timemap/slice?from=[start]&to=[end]&callback=?",
+                    //url: "http://www.nickrabinowitz.com/projects/timemap/progsvc.php?start=[start]&end=[end]&callback=",
+                    start: "2008-06-00",
+                    // lower cutoff date for data
+                    dataMinDate: "2008-06-00",
+                    // four months in milliseconds
+                    interval: 2592000000,   
+                    // function to turn date into string appropriate for service
+                    formatDate: function(d) {
+                        return TimeMap.util.formatDate(d, 1);
+                    }
+                }
+            }
+        ],
+        bandIntervals: "wk"
+    });
+}
+    </script>
+
+  </head>
+  <body onLoad="onLoad()" onunload="GUnload();">
+    <h1> IUCr Crystal publication data </h1>
+    <h3> Authorship - as an interactive display based on the date of publication and the location of the author.</h3>
+    <p> The IUCr articles have rich and open metadata, allowing for repurposing and reuse. Here, is a visualisation of where each author of a paper is affiliated, running against a timeline for when the articles were published. Scroll the timeline to the right to advance time. The map below is a google map and can be zoomed and panned as desired.</p>
+    <div id="timelinecontainer">
+      <div id="timeline"></div>
+    </div>
+    <div id="mapcontainer">
+      <div id="map"></div>
+    </div>
+  </body>
+</html>
